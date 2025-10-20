@@ -1,6 +1,6 @@
 <?php
 
-namespace Utopia\CLI;
+namespace Utopia;
 
 class Console
 {
@@ -83,9 +83,9 @@ class Console
     }
 
     /**
-     * Warning
+     * Confirm
      *
-     * Log warning messages to console
+     * Prompt for user input in interactive mode
      *
      * @param  string  $question
      * @return string
@@ -109,7 +109,7 @@ class Console
     /**
      * Exit
      *
-     * Log warning messages to console
+     * Terminate the current process with the provided exit status.
      *
      * @param  int  $status
      * @return void
@@ -120,7 +120,7 @@ class Console
     }
 
     /**
-     * Execute a Commnad
+     * Execute a Command
      *
      * This function was inspired by: https://stackoverflow.com/a/13287902/2299554
      *
@@ -128,6 +128,7 @@ class Console
      * @param  string  $input
      * @param  string  $output
      * @param  int  $timeout
+     * @param  callable|null  $onProgress
      * @return int
      */
     public static function execute(array|string $cmd, string $input, string &$output, int $timeout = -1, ?callable $onProgress = null): int
@@ -209,9 +210,13 @@ class Console
     }
 
     /**
-     * @param  callable  $callback
-     * @param  int  $sleep // in seconds!
-     * @param  int  $delay // in seconds!
+     * Loop
+     *
+     * Repeatedly execute a callback while limiting CPU consumption.
+     *
+     * @param  callable       $callback
+     * @param  int            $sleep Sleep duration in seconds.
+     * @param  int            $delay Initial delay in seconds.
      * @param  callable|null  $onError
      *
      * @throws \Exception

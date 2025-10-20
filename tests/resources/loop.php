@@ -1,6 +1,6 @@
 <?php
 
-use Utopia\CLI\Console;
+use Utopia\Console;
 
 include __DIR__.'/../../vendor/autoload.php';
 

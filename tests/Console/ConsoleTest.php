@@ -1,23 +1,14 @@
 <?php
 
-namespace Utopia\Tests;
+namespace Utopia\Console\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Utopia\CLI\Console;
+use Utopia\Console;
 
 class ConsoleTest extends TestCase
 {
-    public function setUp(): void
+    public function testLogs(): void
     {
-    }
-
-    public function tearDown(): void
-    {
-    }
-
-    public function testLogs()
-    {
-        // Use vars to resolve adapter key
         $this->assertEquals(4, Console::log('log'));
         $this->assertEquals(17, Console::success('success'));
         $this->assertEquals(14, Console::info('info'));
@@ -26,7 +17,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals('this is an answer', Console::confirm('this is a question'));
     }
 
-    public function testExecuteBasic()
+    public function testExecuteBasic(): void
     {
         $output = '';
         $input = '';
@@ -36,7 +27,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(0, $code);
     }
 
-    public function testExecuteArray()
+    public function testExecuteArray(): void
     {
         $output = '';
         $input = '';
@@ -47,8 +38,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(0, $code);
     }
 
-    // Validate existing environment variables are passed down to the executed command.
-    public function testExecuteEnvVariables()
+    public function testExecuteEnvVariables(): void
     {
         $randomData = base64_encode(random_bytes(10));
         putenv("FOO={$randomData}");
@@ -65,6 +55,7 @@ class ConsoleTest extends TestCase
             if (empty($row)) {
                 continue;
             }
+
             $kv = explode('=', $row, 2);
             $this->assertEquals(2, count($kv), $row);
             $data[$kv[0]] = $kv[1];
@@ -74,7 +65,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals($randomData, $data['FOO']);
     }
 
-    public function testExecuteStream()
+    public function testExecuteStream(): void
     {
         $output = '';
         $input = '';
@@ -89,7 +80,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(0, $code);
     }
 
-    public function testExecuteStdOut()
+    public function testExecuteStdOut(): void
     {
         $output = '';
         $input = '';
@@ -99,7 +90,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(0, $code);
     }
 
-    public function testExecuteStdErr()
+    public function testExecuteStdErr(): void
     {
         $output = '';
         $input = '';
@@ -109,7 +100,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(0, $code);
     }
 
-    public function testExecuteExitCode()
+    public function testExecuteExitCode(): void
     {
         $output = '';
         $input = '';
@@ -126,7 +117,7 @@ class ConsoleTest extends TestCase
         $this->assertEquals(100, $code);
     }
 
-    public function testExecuteTimeout()
+    public function testExecuteTimeout(): void
     {
         $output = '';
         $input = '';
@@ -143,15 +134,17 @@ class ConsoleTest extends TestCase
         $this->assertEquals(1, $code);
     }
 
-    public function testLoop()
+    public function testLoop(): void
     {
         $file = __DIR__.'/../resources/loop.php';
         $input = '';
         $output = '';
         $code = Console::execute('php '.$file, $input, $output, 30);
 
-        $this->assertGreaterThan(30, count(explode("\n", $output)));
-        $this->assertLessThan(50, count(explode("\n", $output)));
+        $lines = explode("\n", $output);
+
+        $this->assertGreaterThan(30, count($lines));
+        $this->assertLessThan(50, count($lines));
         $this->assertEquals(1, $code);
     }
 }
