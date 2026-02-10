@@ -125,13 +125,14 @@ class Console
      * This function was inspired by: https://stackoverflow.com/a/13287902/2299554
      *
      * @param  array|string  $cmd
-     * @param  string  $input
-     * @param  string  $output
+     * @param  string  $stdin
+     * @param  string  $stdout  Stdout contents (by reference).
+     * @param  string  $stderr  Stderr contents (by reference).
      * @param  int  $timeout
      * @param  callable|null  $onProgress
      * @return int
      */
-    public static function execute(array|string $cmd, string $input, string &$output, int $timeout = -1, ?callable $onProgress = null): int
+    public static function execute(array|string $cmd, string $stdin, string &$stdout, string &$stderr, int $timeout = -1, ?callable $onProgress = null): int
     {
         // If the $cmd is passed as string, it will be wrapped into a subshell by \proc_open
         // Forward stdout and exit codes from the subshell.
@@ -146,7 +147,8 @@ class Console
             $pipes
         );
         $start = \time();
-        $output = '';
+        $stdout = '';
+        $stderr = '';
         $status = '';
 
         if (\is_resource($process)) {
@@ -155,7 +157,7 @@ class Console
             \stream_set_blocking($pipes[2], false);
             \stream_set_blocking($pipes[3], false);
 
-            \fwrite($pipes[0], $input);
+            \fwrite($pipes[0], $stdin);
             \fclose($pipes[0]);
         }
 
@@ -163,18 +165,15 @@ class Console
             $stdoutContents = \stream_get_contents($pipes[1]) ?: '';
             $stderrContents = \stream_get_contents($pipes[2]) ?: '';
 
-            $outputContents = $stdoutContents;
+            $stderr .= $stderrContents;
 
-            if (! empty($stderrContents)) {
-                $separator = empty($outputContents) ? '' : "\n";
-                $outputContents .= $separator.$stderrContents;
-            }
+            $outputContents = $stdoutContents;
 
             if (isset($onProgress) && (! empty($outputContents))) {
                 $onProgress($outputContents, $process);
             }
 
-            $output .= $outputContents;
+            $stdout .= $outputContents;
             $status .= \stream_get_contents($pipes[3]);
 
             if ($timeout > 0 && \time() - $start > $timeout) {
@@ -214,9 +213,9 @@ class Console
      *
      * Repeatedly execute a callback while limiting CPU consumption.
      *
-     * @param  callable       $callback
-     * @param  int            $sleep Sleep duration in seconds.
-     * @param  int            $delay Initial delay in seconds.
+     * @param  callable  $callback
+     * @param  int  $sleep Sleep duration in seconds.
+     * @param  int  $delay Initial delay in seconds.
      * @param  callable|null  $onError
      *
      * @throws \Exception
