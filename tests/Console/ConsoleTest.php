@@ -20,8 +20,9 @@ class ConsoleTest extends TestCase
     public function testExecuteBasic(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\';"', $input, $output, 10);
+        $code = Console::execute('php -r "echo \'hello world\';"', $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(0, $code);
@@ -30,9 +31,10 @@ class ConsoleTest extends TestCase
     public function testExecuteArray(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
         $cmd = ['php', '-r', "echo 'hello world';"];
-        $code = Console::execute($cmd, $input, $output, 10);
+        $code = Console::execute($cmd, $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(0, $code);
@@ -44,9 +46,10 @@ class ConsoleTest extends TestCase
         putenv("FOO={$randomData}");
 
         $output = '';
+        $stderr = '';
         $input = '';
         $cmd = ['printenv'];
-        $code = Console::execute($cmd, $input, $output, 10);
+        $code = Console::execute($cmd, $input, $output, $stderr, 10);
 
         $this->assertEquals(0, $code);
 
@@ -68,10 +71,11 @@ class ConsoleTest extends TestCase
     public function testExecuteStream(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
 
         $outputStream = '';
-        $code = Console::execute('printf 1 && sleep 1 && printf 2 && sleep 1 && printf 3 && sleep 1 && printf 4 && sleep 1 && printf 5', $input, $output, 10, function ($output) use (&$outputStream) {
+        $code = Console::execute('printf 1 && sleep 1 && printf 2 && sleep 1 && printf 3 && sleep 1 && printf 4 && sleep 1 && printf 5', $input, $output, $stderr, 10, function ($output) use (&$outputStream) {
             $outputStream .= $output;
         });
 
@@ -83,35 +87,41 @@ class ConsoleTest extends TestCase
     public function testExecuteStdOut(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('>&1 echo "success"', $input, $output, 3);
+        $code = Console::execute('>&1 echo "success"', $input, $output, $stderr, 3);
 
         $this->assertEquals("success\n", $output);
+        $this->assertEquals('', $stderr);
         $this->assertEquals(0, $code);
     }
 
     public function testExecuteStdErr(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('>&2 echo "error"', $input, $output, 3);
+        $code = Console::execute('>&2 echo "error"', $input, $output, $stderr, 3);
 
-        $this->assertEquals("error\n", $output);
+        $this->assertEquals('', $output);
+        $this->assertEquals("error\n", $stderr);
         $this->assertEquals(0, $code);
     }
 
     public function testExecuteExitCode(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\'; exit(2);"', $input, $output, 10);
+        $code = Console::execute('php -r "echo \'hello world\'; exit(2);"', $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(2, $code);
 
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\'; exit(100);"', $input, $output, 10);
+        $code = Console::execute('php -r "echo \'hello world\'; exit(100);"', $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(100, $code);
@@ -120,15 +130,17 @@ class ConsoleTest extends TestCase
     public function testExecuteTimeout(): void
     {
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "sleep(1); echo \'hello world\'; exit(0);"', $input, $output, 3);
+        $code = Console::execute('php -r "sleep(1); echo \'hello world\'; exit(0);"', $input, $output, $stderr, 3);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(0, $code);
 
         $output = '';
+        $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "sleep(4); echo \'hello world\'; exit(0);"', $input, $output, 3);
+        $code = Console::execute('php -r "sleep(4); echo \'hello world\'; exit(0);"', $input, $output, $stderr, 3);
 
         $this->assertEquals('', $output);
         $this->assertEquals(1, $code);
@@ -139,7 +151,8 @@ class ConsoleTest extends TestCase
         $file = __DIR__.'/../resources/loop.php';
         $input = '';
         $output = '';
-        $code = Console::execute('php '.$file, $input, $output, 30);
+        $stderr = '';
+        $code = Console::execute('php '.$file, $input, $output, $stderr, 30);
 
         $lines = explode("\n", $output);
 
