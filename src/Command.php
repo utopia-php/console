@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Stringable;
 use Utopia\Servers\Validator;
 
-class Command
+class Command implements Stringable
 {
     /**
      * @var array<int, string>
@@ -18,7 +18,7 @@ class Command
         $this->arguments[] = $this->normalize($executable, 'Command executable');
     }
 
-    public function add(string|int|float|bool|Stringable $value, Validator|callable|null $validator = null): self
+    public function add(string|int|float|Stringable $value, Validator|callable|null $validator = null): self
     {
         $argument = $this->normalize($value, 'Command argument');
 
@@ -46,7 +46,12 @@ class Command
         return implode(' ', $escaped);
     }
 
-    protected function normalize(string|int|float|bool|Stringable $value, string $context): string
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+
+    protected function normalize(string|int|float|Stringable $value, string $context): string
     {
         $value = (string) $value;
 
