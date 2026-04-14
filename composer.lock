@@ -111,20 +111,20 @@
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "2.2.x-dev",
+            "version": "2.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "c795a176780bcada3d008d07eef0c2b1b298665c"
+                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c795a176780bcada3d008d07eef0c2b1b298665c",
-                "reference": "c795a176780bcada3d008d07eef0c2b1b298665c",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
+                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": "^8.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^14",
@@ -138,7 +138,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Instantiator\\": "src/"
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -160,7 +160,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.2.x"
+                "source": "https://github.com/doctrine/instantiator/tree/2.0.x"
             },
             "funding": [
                 {
@@ -176,7 +176,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-20T19:06:08+00:00"
+            "time": "2026-01-04T22:42:35+00:00"
         },
         {
             "name": "laravel/pint",

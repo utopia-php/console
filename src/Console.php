@@ -186,14 +186,15 @@ class Console
                 return 1;
             }
 
-            if (! \proc_get_status($process)['running']) {
+            $procStatus = \proc_get_status($process);
+            if (! $procStatus['running']) {
                 \fclose($pipes[1]);
                 \fclose($pipes[2]);
-                $procCloseCode = \proc_close($process);
+                \proc_close($process);
 
                 $exitCode = ($status !== '')
                     ? (int) str_replace("\n", '', $status)
-                    : $procCloseCode;
+                    : $procStatus['exitcode'];
 
                 return $exitCode;
             }
