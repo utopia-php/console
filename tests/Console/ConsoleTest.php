@@ -2,7 +2,9 @@
 
 namespace Utopia\Console\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Utopia\Command;
 use Utopia\Console;
 
 class ConsoleTest extends TestCase
@@ -22,10 +24,49 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\';"', $input, $output, $stderr, 10);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add("echo 'hello world';"), $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(0, $code);
+    }
+
+    public function testCommandToArray(): void
+    {
+        $command = (new Command('php'))
+            ->add('-r')
+            ->add("echo 'hello world';");
+
+        $this->assertSame(['php', '-r', "echo 'hello world';"], $command->toArray());
+    }
+
+    public function testCommandToStringEscapesArguments(): void
+    {
+        $command = (new Command('php'))
+            ->add('-r')
+            ->add("echo 'hello'; rm -rf /");
+
+        $this->assertSame("'php' '-r' 'echo '\''hello'\''; rm -rf /'", $command->toString());
+    }
+
+    public function testCommandValidatorCallable(): void
+    {
+        $command = (new Command('git'))
+            ->add('checkout')
+            ->add('feature/test-1', fn (string $value): bool => preg_match('/^[A-Za-z0-9._\/-]+$/', $value) === 1);
+
+        $this->assertSame(['git', 'checkout', 'feature/test-1'], $command->toArray());
+    }
+
+    public function testCommandValidatorFailure(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid command argument: feature/test; rm -rf /');
+
+        (new Command('git'))
+            ->add('checkout')
+            ->add('feature/test; rm -rf /', fn (string $value): bool => preg_match('/^[A-Za-z0-9._\/-]+$/', $value) === 1);
     }
 
     public function testExecuteArray(): void
@@ -75,9 +116,11 @@ class ConsoleTest extends TestCase
         $input = '';
 
         $outputStream = '';
-        $code = Console::execute('printf 1 && sleep 1 && printf 2 && sleep 1 && printf 3 && sleep 1 && printf 4 && sleep 1 && printf 5', $input, $output, $stderr, 10, function ($output) use (&$outputStream) {
-            $outputStream .= $output;
-        });
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add('for ($i = 1; $i <= 5; $i++) { echo $i; usleep(1000000); }'), $input, $output, $stderr, 10, function ($output) use (&$outputStream) {
+                $outputStream .= $output;
+            });
 
         $this->assertEquals('12345', $output);
         $this->assertEquals('12345', $outputStream);
@@ -89,7 +132,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('>&1 echo "success"', $input, $output, $stderr, 3);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add('fwrite(STDOUT, "success\n");'), $input, $output, $stderr, 3);
 
         $this->assertEquals("success\n", $output);
         $this->assertEquals('', $stderr);
@@ -101,7 +146,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('>&2 echo "error"', $input, $output, $stderr, 3);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add('fwrite(STDERR, "error\n");'), $input, $output, $stderr, 3);
 
         $this->assertEquals('', $output);
         $this->assertEquals("error\n", $stderr);
@@ -113,7 +160,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\'; exit(2);"', $input, $output, $stderr, 10);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add("echo 'hello world'; exit(2);"), $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(2, $code);
@@ -121,7 +170,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "echo \'hello world\'; exit(100);"', $input, $output, $stderr, 10);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add("echo 'hello world'; exit(100);"), $input, $output, $stderr, 10);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(100, $code);
@@ -132,7 +183,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "sleep(1); echo \'hello world\'; exit(0);"', $input, $output, $stderr, 3);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add("sleep(1); echo 'hello world'; exit(0);"), $input, $output, $stderr, 3);
 
         $this->assertEquals('hello world', $output);
         $this->assertEquals(0, $code);
@@ -140,7 +193,9 @@ class ConsoleTest extends TestCase
         $output = '';
         $stderr = '';
         $input = '';
-        $code = Console::execute('php -r "sleep(4); echo \'hello world\'; exit(0);"', $input, $output, $stderr, 3);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add('-r')
+            ->add("sleep(4); echo 'hello world'; exit(0);"), $input, $output, $stderr, 3);
 
         $this->assertEquals('', $output);
         $this->assertEquals(1, $code);
@@ -152,12 +207,24 @@ class ConsoleTest extends TestCase
         $input = '';
         $output = '';
         $stderr = '';
-        $code = Console::execute('php '.$file, $input, $output, $stderr, 30);
+        $code = Console::execute((new Command(PHP_BINARY))
+            ->add($file), $input, $output, $stderr, 30);
 
         $lines = explode("\n", $output);
 
         $this->assertGreaterThan(30, count($lines));
         $this->assertLessThan(50, count($lines));
         $this->assertEquals(1, $code);
+    }
+
+    public function testExecuteStringRemainsCompatible(): void
+    {
+        $output = '';
+        $stderr = '';
+        $input = '';
+        $code = Console::execute('php -r "echo \'hello world\';"', $input, $output, $stderr, 10);
+
+        $this->assertSame('hello world', $output);
+        $this->assertSame(0, $code);
     }
 }

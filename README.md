@@ -17,6 +17,7 @@ composer require utopia-php/console
 require_once __DIR__.'/vendor/autoload.php';
 
 use Utopia\Console;
+use Utopia\Command;
 
 Console::success('Ready to work!');
 
@@ -28,7 +29,12 @@ if ($answer !== 'y') {
 }
 
 $output = '';
-$exitCode = Console::execute('php -r "echo \"Hello\";"', '', $output, 3);
+$stderr = '';
+$command = (new Command(PHP_BINARY))
+    ->add('-r')
+    ->add('echo "Hello";');
+
+$exitCode = Console::execute($command, '', $output, $stderr, 3);
 
 Console::log("Command returned {$exitCode} with: {$output}");
 ```
@@ -45,12 +51,17 @@ Console::error('Red log');        // stderr
 
 ### Execute Commands
 
-`Console::execute()` returns the exit code and writes the combined stdout/stderr output into the third argument. Pass a timeout (in seconds) to stop long-running processes and an optional progress callback to stream intermediate output.
+`Console::execute()` returns the exit code and writes stdout and stderr into the referenced output variables. Pass a timeout (in seconds) to stop long-running processes and an optional progress callback to stream intermediate output. Prefer `Utopia\Command` or argv arrays when you want structured command building.
 
 ```php
+$command = (new Command(PHP_BINARY))
+    ->add('-r')
+    ->add('fwrite(STDOUT, "success\\n");');
+
 $output = '';
 $input = '';
-$exitCode = Console::execute('>&1 echo "success"', $input, $output, 3);
+$stderr = '';
+$exitCode = Console::execute($command, $input, $output, $stderr, 3);
 
 echo $exitCode;  // 0
 echo $output;    // "success\n"
