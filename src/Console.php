@@ -124,7 +124,7 @@ class Console
      *
      * This function was inspired by: https://stackoverflow.com/a/13287902/2299554
      *
-     * @param  array|string  $cmd
+     * @param  Command|array|string  $cmd
      * @param  string  $stdin
      * @param  string  $stdout  Stdout contents (by reference).
      * @param  string  $stderr  Stderr contents (by reference).
@@ -132,8 +132,14 @@ class Console
      * @param  callable|null  $onProgress
      * @return int
      */
-    public static function execute(array|string $cmd, string $stdin, string &$stdout, string &$stderr, int $timeout = -1, ?callable $onProgress = null): int
+    public static function execute(Command|array|string $cmd, string $stdin, string &$stdout, string &$stderr, int $timeout = -1, ?callable $onProgress = null): int
     {
+        if ($cmd instanceof Command) {
+            $cmd = $cmd->isPlain()
+                ? $cmd->toArray()
+                : $cmd->toString();
+        }
+
         // If the $cmd is passed as string, it will be wrapped into a subshell by \proc_open
         // Forward stdout and exit codes from the subshell.
         if (is_string($cmd)) {
@@ -182,12 +188,15 @@ class Console
                 return 1;
             }
 
-            if (! \proc_get_status($process)['running']) {
+            $procStatus = \proc_get_status($process);
+            if (! $procStatus['running']) {
                 \fclose($pipes[1]);
                 \fclose($pipes[2]);
                 \proc_close($process);
 
-                $exitCode = (int) str_replace("\n", '', $status);
+                $exitCode = ($status !== '')
+                    ? (int) str_replace("\n", '', $status)
+                    : $procStatus['exitcode'];
 
                 return $exitCode;
             }

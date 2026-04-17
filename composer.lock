@@ -4,25 +4,71 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a068f575add4bafb95e49a4a079fd14f",
-    "packages": [],
-    "packages-dev": [
+    "content-hash": "8d8396fe41bfaaf6debe5e1470646740",
+    "packages": [
         {
-            "name": "doctrine/instantiator",
-            "version": "2.2.x-dev",
+            "name": "utopia-php/validators",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "78f5d718c7f52afc31e59434f625b34c52875d72"
+                "url": "https://github.com/utopia-php/validators.git",
+                "reference": "5c57d5b6cf964f8981807c1d3ea8df620c869080"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/78f5d718c7f52afc31e59434f625b34c52875d72",
-                "reference": "78f5d718c7f52afc31e59434f625b34c52875d72",
+                "url": "https://api.github.com/repos/utopia-php/validators/zipball/5c57d5b6cf964f8981807c1d3ea8df620c869080",
+                "reference": "5c57d5b6cf964f8981807c1d3ea8df620c869080",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.4"
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "1.*",
+                "phpstan/phpstan": "1.*",
+                "phpunit/phpunit": "11.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Utopia\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A lightweight collection of reusable validators for Utopia projects",
+            "keywords": [
+                "php",
+                "utopia",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/utopia-php/validators/issues",
+                "source": "https://github.com/utopia-php/validators/tree/0.1.0"
+            },
+            "time": "2025-11-18T11:05:46+00:00"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "doctrine/instantiator",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/instantiator.git",
+                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
+                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^14",
@@ -58,7 +104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.2.x"
+                "source": "https://github.com/doctrine/instantiator/tree/2.0.x"
             },
             "funding": [
                 {
@@ -74,7 +120,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-14T07:50:32+00:00"
+            "time": "2026-01-04T22:42:35+00:00"
         },
         {
             "name": "laravel/pint",
@@ -209,12 +255,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "8c360e27327c8bd29e1c57721574709d0d706118"
+                "reference": "50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/8c360e27327c8bd29e1c57721574709d0d706118",
-                "reference": "8c360e27327c8bd29e1c57721574709d0d706118",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08",
+                "reference": "50f0d9c9d0e3cff1163c959c50aaaaa4a7115f08",
                 "shasum": ""
             },
             "require": {
@@ -260,7 +306,7 @@
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/master"
             },
-            "time": "2025-12-06T20:24:35+00:00"
+            "time": "2026-02-26T13:20:22+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -386,8 +432,8 @@
             "version": "1.12.x-dev",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/2770dcdf5078d0b0d53f94317e06affe88419aa8",
-                "reference": "2770dcdf5078d0b0d53f94317e06affe88419aa8",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/37982d6fc7cbb746dda7773530cda557cdf119e1",
+                "reference": "37982d6fc7cbb746dda7773530cda557cdf119e1",
                 "shasum": ""
             },
             "require": {
@@ -432,20 +478,20 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-09-30T10:16:31+00:00"
+            "time": "2026-02-28T20:30:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.x-dev",
+            "version": "9.2.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "653bca7ea05439961818f429a2a49ec8a8c7d2fb"
+                "reference": "85402a822d1ecf1db1096959413d35e1c37cf1a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/653bca7ea05439961818f429a2a49ec8a8c7d2fb",
-                "reference": "653bca7ea05439961818f429a2a49ec8a8c7d2fb",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/85402a822d1ecf1db1096959413d35e1c37cf1a5",
+                "reference": "85402a822d1ecf1db1096959413d35e1c37cf1a5",
                 "shasum": ""
             },
             "require": {
@@ -502,27 +548,15 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.32"
             },
             "funding": [
                 {
                     "url": "https://github.com/sebastianbergmann",
                     "type": "github"
-                },
-                {
-                    "url": "https://liberapay.com/sebastianbergmann",
-                    "type": "liberapay"
-                },
-                {
-                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
-                    "type": "thanks_dev"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpunit/php-code-coverage",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2025-11-26T14:28:02+00:00"
+            "time": "2024-08-22T04:23:01+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -771,12 +805,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "f9f31a35f726beaab98d1efe3b640e9b40c80baf"
+                "reference": "6fd565bf20d294f964f4cb5162c1615cfe273347"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/f9f31a35f726beaab98d1efe3b640e9b40c80baf",
-                "reference": "f9f31a35f726beaab98d1efe3b640e9b40c80baf",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6fd565bf20d294f964f4cb5162c1615cfe273347",
+                "reference": "6fd565bf20d294f964f4cb5162c1615cfe273347",
                 "shasum": ""
             },
             "require": {
@@ -854,27 +888,11 @@
             },
             "funding": [
                 {
-                    "url": "https://phpunit.de/sponsors.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/sebastianbergmann",
-                    "type": "github"
-                },
-                {
-                    "url": "https://liberapay.com/sebastianbergmann",
-                    "type": "liberapay"
-                },
-                {
-                    "url": "https://thanks.dev/u/gh/sebastianbergmann",
-                    "type": "thanks_dev"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpunit/phpunit",
-                    "type": "tidelift"
+                    "url": "https://phpunit.de/sponsoring.html",
+                    "type": "other"
                 }
             ],
-            "time": "2026-02-01T08:24:05+00:00"
+            "time": "2026-04-14T06:54:51+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1045,7 +1063,7 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "4.0.x-dev",
+            "version": "4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
@@ -1317,7 +1335,7 @@
         },
         {
             "name": "sebastian/exporter",
-            "version": "4.0.x-dev",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
@@ -1894,12 +1912,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "9c42a808cf53f4ab9b531af2023ef1815699938a"
+                "reference": "42687919b65b7542282d315c451702639d58bb72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/9c42a808cf53f4ab9b531af2023ef1815699938a",
-                "reference": "9c42a808cf53f4ab9b531af2023ef1815699938a",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/42687919b65b7542282d315c451702639d58bb72",
+                "reference": "42687919b65b7542282d315c451702639d58bb72",
                 "shasum": ""
             },
             "require": {
@@ -1965,7 +1983,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2026-02-05T23:49:55+00:00"
+            "time": "2026-04-06T01:04:07+00:00"
         },
         {
             "name": "swoole/ide-helper",
@@ -2069,5 +2087,5 @@
         "php": ">=8.0"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
