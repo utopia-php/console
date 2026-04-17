@@ -135,7 +135,9 @@ class Console
     public static function execute(Command|array|string $cmd, string $stdin, string &$stdout, string &$stderr, int $timeout = -1, ?callable $onProgress = null): int
     {
         if ($cmd instanceof Command) {
-            $cmd = $cmd->toArray();
+            $cmd = $cmd->isPlain()
+                ? $cmd->toArray()
+                : $cmd->toString();
         }
 
         // If the $cmd is passed as string, it will be wrapped into a subshell by \proc_open

@@ -30,9 +30,8 @@ if ($answer !== 'y') {
 
 $output = '';
 $stderr = '';
-$command = (new Command(PHP_BINARY))
-    ->add('-r')
-    ->add('echo "Hello";');
+$command = new Command(PHP_BINARY)
+    ->option('-r', 'echo "Hello";');
 
 $exitCode = Console::execute($command, '', $output, $stderr, 3);
 
@@ -54,9 +53,8 @@ Console::error('Red log');        // stderr
 `Console::execute()` returns the exit code and writes stdout and stderr into the referenced output variables. Pass a timeout (in seconds) to stop long-running processes and an optional progress callback to stream intermediate output. Prefer `Utopia\Command` or argv arrays when you want structured command building.
 
 ```php
-$command = (new Command(PHP_BINARY))
-    ->add('-r')
-    ->add('fwrite(STDOUT, "success\\n");');
+$command = new Command(PHP_BINARY)
+    ->option('-r', 'fwrite(STDOUT, "success\\n");');
 
 $output = '';
 $input = '';
@@ -66,6 +64,50 @@ $exitCode = Console::execute($command, $input, $output, $stderr, 3);
 echo $exitCode;  // 0
 echo $output;    // "success\n"
 ```
+
+### Build Commands
+
+Use `flag()` for switches without a value, `option()` for keys that take a value, and `argument()` for positional arguments.
+
+```php
+$command = new Command('tar')
+    ->flag('-cz')
+    ->option('-f', 'archive.tar.gz')
+    ->option('-C', '/tmp/project')
+    ->argument('.');
+```
+
+### Compose Commands
+
+Use the static helpers when you need shell operators such as pipes, `&&`, `||`, grouping, or redirects.
+
+```php
+$pipeline = Command::pipe(
+    new Command('ps')->flag('-ef'),
+    new Command('grep')->argument('php-fpm'),
+    new Command('wc')->flag('-l'),
+);
+
+$deploy = Command::and(
+    Command::group(
+        Command::or(
+            new Command('build'),
+            new Command('build:fallback'),
+        )
+    ),
+    new Command('publish'),
+);
+
+$logs = Command::appendStdout(
+    Command::pipe(
+        new Command('cat')->argument('app.log'),
+        new Command('grep')->argument('ERROR'),
+    ),
+    'errors.log',
+);
+```
+
+Plain commands execute in argv mode. Composed, grouped, and redirected commands execute through shell syntax.
 
 ### Create a Daemon
 
@@ -83,7 +125,7 @@ Console::loop(function () {
 
 ## System Requirements
 
-Utopia Console requires PHP 7.4 or later. We recommend using the latest PHP version whenever possible.
+Utopia Console requires PHP 8.0 or later. We recommend using the latest PHP version whenever possible.
 
 ## License
 
