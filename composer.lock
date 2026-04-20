@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d8396fe41bfaaf6debe5e1470646740",
+    "content-hash": "fd2f5af7e1aebe8cd5adc50200c4f04a",
     "packages": [
         {
             "name": "utopia-php/validators",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/utopia-php/validators.git",
-                "reference": "5c57d5b6cf964f8981807c1d3ea8df620c869080"
+                "reference": "30b6030a5b100fc1dff34506e5053759594b2a20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/utopia-php/validators/zipball/5c57d5b6cf964f8981807c1d3ea8df620c869080",
-                "reference": "5c57d5b6cf964f8981807c1d3ea8df620c869080",
+                "url": "https://api.github.com/repos/utopia-php/validators/zipball/30b6030a5b100fc1dff34506e5053759594b2a20",
+                "reference": "30b6030a5b100fc1dff34506e5053759594b2a20",
                 "shasum": ""
             },
             "require": {
@@ -25,7 +25,7 @@
             },
             "require-dev": {
                 "laravel/pint": "1.*",
-                "phpstan/phpstan": "1.*",
+                "phpstan/phpstan": "2.*",
                 "phpunit/phpunit": "11.*"
             },
             "type": "library",
@@ -47,28 +47,28 @@
             ],
             "support": {
                 "issues": "https://github.com/utopia-php/validators/issues",
-                "source": "https://github.com/utopia-php/validators/tree/0.1.0"
+                "source": "https://github.com/utopia-php/validators/tree/0.2.0"
             },
-            "time": "2025-11-18T11:05:46+00:00"
+            "time": "2026-01-13T09:16:51+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
-            "version": "2.0.x-dev",
+            "version": "2.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad"
+                "reference": "c795a176780bcada3d008d07eef0c2b1b298665c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
-                "reference": "7be2ebd072deac210cb57eb2776aac19f4d5d1ad",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/c795a176780bcada3d008d07eef0c2b1b298665c",
+                "reference": "c795a176780bcada3d008d07eef0c2b1b298665c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.4"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^14",
@@ -82,7 +82,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
+                    "Doctrine\\Instantiator\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -104,7 +104,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/instantiator/issues",
-                "source": "https://github.com/doctrine/instantiator/tree/2.0.x"
+                "source": "https://github.com/doctrine/instantiator/tree/2.2.x"
             },
             "funding": [
                 {
@@ -120,7 +120,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-04T22:42:35+00:00"
+            "time": "2026-03-20T19:06:08+00:00"
         },
         {
             "name": "laravel/pint",
@@ -1272,7 +1272,7 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "5.1.x-dev",
+            "version": "5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
@@ -1323,7 +1323,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
-                "source": "https://github.com/sebastianbergmann/environment/tree/5.1"
+                "source": "https://github.com/sebastianbergmann/environment/tree/5.1.5"
             },
             "funding": [
                 {
